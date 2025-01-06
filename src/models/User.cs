@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace Catedra_3_Backend.src.models
 {
-    public class User
+    public class User : IdentityUser
     {
-        private string Email { get; set; } = "";
-        private string Password { get; set; } = "";
+        
     }
 }
