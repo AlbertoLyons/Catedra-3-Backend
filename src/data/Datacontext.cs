@@ -13,9 +13,7 @@ namespace Catedra_3_Backend.src.data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Post>().HasKey(p => new { p.UserId });
-            modelBuilder.Entity<User>()
-            .Property(u => u.Id);
+            modelBuilder.Entity<Post>().HasKey(p => new { p.UserId, p.Url });
         }
 
     }

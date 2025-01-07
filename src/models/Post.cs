@@ -11,7 +11,6 @@ namespace Catedra_3_Backend.src.models
         public string Title { get; set; } = "";
         public DateOnly PostDate { get; set; }
         public string Url { get; set; } = "";
-        [ForeignKey("User")]
         public string UserId { get; set; } = "";
     }
 }
