@@ -33,6 +33,7 @@ builder.Services.AddSingleton(cloudinary);
 
 builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlite("Data Source=Data.db"));
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<Seeder>();
 
@@ -77,9 +78,29 @@ opt =>
         ValidateIssuer = true,
         ValidIssuer = Environment.GetEnvironmentVariable("JWT_IUSSER"),
         ValidateAudience = true,
+        ValidateLifetime = true, // Valida que no esté expirado
         ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SIGNINKEY") ?? throw new ArgumentNullException("JWT_SIGINKEY"))),
+    };
+    opt.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+            {
+                context.Response.StatusCode = 401;
+                context.Response.ContentType = "application/json";
+                var errorResponse = new
+                {
+                    error = "Expired token",
+                    status = 401
+                };
+                var errorResponseJson = System.Text.Json.JsonSerializer.Serialize(errorResponse);
+                return context.Response.WriteAsync(errorResponseJson);
+            }
+            return Task.CompletedTask;
+        }
     };
 });
 

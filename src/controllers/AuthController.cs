@@ -29,7 +29,7 @@ namespace Catedra_3_Backend.src.controllers
             {
                 if (e.Message == "Email already exists" || e.Message == "Passwords do not match")
                 {
-                    return Unauthorized(new { message = e.Message });
+                    return BadRequest(new { message = e.Message });
                 }
                 return StatusCode(500, new { message = e.Message });
             }
