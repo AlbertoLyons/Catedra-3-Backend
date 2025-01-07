@@ -6,10 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catedra_3_Backend.src.data
 {
-    public class DataContext : IdentityDbContext<User>
+    public class DataContext(DbContextOptions<DataContext> options) : IdentityDbContext<User>(options)
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-
-        public new DbSet<User> Users { get; set; }
+        public new required DbSet<User> Users { get; set; }
     }
 }
