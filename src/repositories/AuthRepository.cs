@@ -48,7 +48,6 @@ namespace Catedra_3_Backend.src.repositories
         {
             bool exist = await _userManager.FindByEmailAsync(user.Email) != null;
             if(exist) throw new Exception("Email already exists");
-            if (user.Password != user.ConfirmPassword) throw new Exception("Passwords do not match");
             // Crea un nuevo usuario
             User newUser = user.ToUserFromRegisteredDTO();
             // Obtiene el resultado de la creación del usuario

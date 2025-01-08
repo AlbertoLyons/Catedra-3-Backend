@@ -27,7 +27,7 @@ namespace Catedra_3_Backend.src.controllers
             }
             catch (Exception e)
             {
-                if (e.Message == "Email already exists" || e.Message == "Passwords do not match")
+                if (e.Message == "Email already exists")
                 {
                     return BadRequest(new { message = e.Message });
                 }

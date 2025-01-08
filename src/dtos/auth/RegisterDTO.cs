@@ -9,7 +9,6 @@ namespace Catedra_3_Backend.src.dtos
         [MinLength(6)]
         [RegularExpression(@"^(?=.*\d).+$", ErrorMessage = "The password must contain at least one number.")]
         public string Password { get; set; } = "";
-        [Required]
-        public string ConfirmPassword { get; set; } = "";
+
     }
 }
