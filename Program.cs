@@ -83,28 +83,16 @@ opt =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SIGNINKEY") ?? throw new ArgumentNullException("JWT_SIGINKEY"))),
     };
-    opt.Events = new JwtBearerEvents
-    {
-        OnAuthenticationFailed = context =>
-        {
-            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-            {
-                context.Response.StatusCode = 401;
-                context.Response.ContentType = "application/json";
-                var errorResponse = new
-                {
-                    error = "Expired token",
-                    status = 401
-                };
-                var errorResponseJson = System.Text.Json.JsonSerializer.Serialize(errorResponse);
-                return context.Response.WriteAsync(errorResponseJson);
-            }
-            return Task.CompletedTask;
-        }
-    };
+
 });
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 using (var scope = app.Services.CreateScope())
 {
@@ -128,17 +116,10 @@ using (var scope = app.Services.CreateScope())
     await Seeder.Initialize(services);
 }
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-app.UseCors("AllowAnyHost");
 app.UseHttpsRedirection();
+app.UseCors("AllowAnyHost");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-
 app.Run();
 
