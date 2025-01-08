@@ -36,6 +36,10 @@ namespace Catedra_3_Backend.src.repositories
             {
                 throw new Exception("Image must be a PNG or JPG");
             } 
+            if (createPost.Image.Length > 5 * 1024 * 1024)
+            {
+                throw new Exception("Image size cannot exceed 5 MB");
+            }
             var uploadParams = new ImageUploadParams
             {
                 File = new FileDescription(createPost.Image.FileName, createPost.Image.OpenReadStream()),

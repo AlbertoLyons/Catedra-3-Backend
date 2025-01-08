@@ -44,11 +44,11 @@ namespace Catedra_3_Backend.src.controllers
                 return Ok(post);
             } catch (Exception e)
             {
-                if (e.Message.Contains("Image is required") || e.Message.Contains("Image must be a PNG or JPG") || e.Message.Contains("User not found"))
+                if (e.Message.Contains("Image is required") || e.Message.Contains("Image must be a PNG or JPG") || e.Message.Contains("User not found") || e.Message.Contains("Image size cannot exceed 5 MB"))
                 {
                     return BadRequest(new { e.Message });
                 }
-                return BadRequest(e.Message);
+                return StatusCode(500, new { message = e.Message });
             }
 
         }
