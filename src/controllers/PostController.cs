@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Catedra_3_Backend.src.dtos.post;
-using Catedra_3_Backend.src.helpers;
 using Catedra_3_Backend.src.interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +12,6 @@ namespace Catedra_3_Backend.src.controllers
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _postRepository;
-        JwtValidator jwtValidator = new JwtValidator();
 
         public PostController(IPostRepository postRepository)
         {
@@ -25,10 +20,6 @@ namespace Catedra_3_Backend.src.controllers
         [HttpGet]
         public async Task<IActionResult> GetPosts()
         {
-            if (jwtValidator.IsTokenExpired(Request.Headers["Authorization"]!))
-            {
-                return Unauthorized(new { Message = "Token expired" });
-            }
             try
             {
                 var posts = await _postRepository.GetPosts();
@@ -42,10 +33,6 @@ namespace Catedra_3_Backend.src.controllers
         [HttpPost]
         public async Task<IActionResult> CreatePost([FromForm] CreatePostDTO createPost)
         {
-            if (jwtValidator.IsTokenExpired(Request.Headers["Authorization"]!))
-            {
-                return Unauthorized(new { Message = "Token expired" });
-            }
             try
             {
                 var post = await _postRepository.CreatePost(createPost);
