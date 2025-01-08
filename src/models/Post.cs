@@ -9,7 +9,7 @@ namespace Catedra_3_Backend.src.models
     public class Post
     {
         public string Title { get; set; } = "";
-        public DateOnly PostDate { get; set; }
+        public DateTime PostDate { get; set; }
         public string Url { get; set; } = "";
         public string UserId { get; set; } = "";
     }

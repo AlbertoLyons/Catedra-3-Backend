@@ -39,7 +39,7 @@ namespace Catedra_3_Backend.src.data
                     {
                         var postFaker = new Faker<Post>()
                         .RuleFor(p => p.Title, f => f.Lorem.Sentence())
-                        .RuleFor(p => p.PostDate, f => DateOnly.FromDateTime(f.Date.Past()))
+                        .RuleFor(p => p.PostDate, f => f.Date.Past())
                         .RuleFor(p => p.Url, f => f.Image.PicsumUrl())
                         .RuleFor(p => p.UserId, f => users[random.Next(users.Count - 1)].Id);
                         var posts = postFaker.Generate(100);

@@ -8,7 +8,7 @@ namespace Catedra_3_Backend.src.dtos.post
         public string Title { get; set; } = "";
         
         [Required]
-        public DateOnly PostDate { get; set; }
+        public DateTime PostDate { get; set; }
         
         [Required]
         [MaxFileSize(5 * 1024 * 1024, ErrorMessage = "Image size cannot exceed 5MB.")]
